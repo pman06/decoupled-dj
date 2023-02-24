@@ -76,23 +76,31 @@ export default {
   },
   methods: {
     handleSubmit: function (event) {
-      // eslint-disable-next-line no-unused-vars
-      const formData = new FormData(event.target);
-      // TODO - build the request body
-      const data = {};
-      fetch("/billing/api/invoices/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      })
-        .then((response) => {
-          if (!response.ok) throw Error(response.statusText);
-          return response.json();
-        })
-        .then((json) => {
-          console.log(json);
-        })
-        .catch((err) => console.log(err));
+		// eslint-disable-next-line no-unused-vars
+		const formData = new FormData(event.target);
+		// TODO - build the request body
+		const data = Object.fromEntries(formData);
+		data.items = [
+			{
+				quantity: formData.get("quantity"),
+				description: formData.get("description"),
+				price: formData.get("price"),
+				taxed: Boolean(formData.get("taxed"))
+			}
+		];
+		fetch("/billing/api/invoices/", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(data),
+		})
+		.then((response) => {
+		if (!response.ok) throw Error(response.statusText);
+		return response.json();
+		})
+		.then((json) => {
+		console.log(json);
+		})
+		.catch((err) => console.log(err));
     },
   },
   mounted() {

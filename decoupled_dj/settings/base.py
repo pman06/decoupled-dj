@@ -16,6 +16,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "users.apps.UsersConfig",
     "billing.apps.BillingConfig",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -74,4 +75,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = env("STATIC_URL")
+STATICFILES_DIR = [
+    BASE_DIR / "billing/static" 
+]
 AUTH_USER_MODEL = "users.User"
